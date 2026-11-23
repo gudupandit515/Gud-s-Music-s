@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#09090d" />
+  <title>Gud'S Music</title>
+  <link rel="preconnect" href="https://c.saavncdn.com" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <a class="brand" href="#" data-nav="home">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 18.2V6.4l10-2.1v11.4a3 3 0 1 1-1.6-2.6V6.2L10.6 8v10.2a3 3 0 1 1-1.6-2.6Z"/></svg>
+        </span>
+        Gud'S Music
+      </a>
+
+      <nav class="nav" aria-label="Sections">
+        <button class="nav-item" type="button" data-nav="home" aria-current="page">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 10.7 12 3.8l8.5 6.9"/><path d="M5.7 9.5V20h12.6V9.5"/></svg>
+          <span>Home</span>
+        </button>
+        <button class="nav-item" type="button" data-nav="search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="10.9" cy="10.9" r="6.6"/><path d="M15.7 15.7 21 21"/></svg>
+          <span>Search</span>
+        </button>
+        <button class="nav-item" type="button" data-nav="queue">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h11M4 12h11M4 17h7"/><circle cx="18.5" cy="16.5" r="2.5" fill="currentColor" stroke="none"/><path d="M21 16.5V9l-2.5.8" stroke-linecap="round"/></svg>
+          <span>Queue</span>
+          <span class="nav-count" id="navCount">0</span>
+        </button>
+      </nav>
+
+      <div class="side-note">
+        <p>Full-length streaming</p>
+        <span>Songs play straight from the JioSaavn catalogue. No account needed.</span>
+        <span class="side-keys"><kbd>space</kbd> play · <kbd>←</kbd><kbd>→</kbd> seek</span>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="titles">
+          <h1 id="pageTitle">Listen now</h1>
+          <p id="pageSub">Full songs, straight from the web.</p>
+        </div>
+        <button class="np-open" id="npOpen" type="button">
+          <span class="np-dot" aria-hidden="true"></span>
+          Now playing
+        </button>
+      </header>
+
+      <section class="view" id="view-home">
+        <div id="homeSections">
+          <p class="loading">Loading songs…</p>
+        </div>
+      </section>
+
+      <section class="view" id="view-search" hidden>
+        <div class="searchbar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><circle cx="10.9" cy="10.9" r="6.6"/><path d="M15.7 15.7 21 21"/></svg>
+          <input id="searchInput" type="search" placeholder="Search songs, singers or movies" autocomplete="off" spellcheck="false" aria-label="Search songs" />
+          <button class="clear-btn" id="searchClear" type="button" aria-label="Clear search" hidden>×</button>
+        </div>
+        <div class="chips" id="searchChips"></div>
+        <p class="status" id="searchStatus" role="status"></p>
+        <ol class="rows" id="searchResults"></ol>
+      </section>
+
+      <section class="view" id="view-queue" hidden>
+        <div class="queue-head">
+          <div>
+            <h2>Up next</h2>
+            <p class="page-sub" id="queueSub">Nothing queued yet — pick a song anywhere.</p>
+          </div>
+          <button class="ghost-btn" id="queueClear" type="button">Clear</button>
+        </div>
+        <ol class="rows" id="queueList"></ol>
+      </section>
+    </main>
+  </div>
+
+  <footer class="player" id="player">
+    <div class="p-track">
+      <button class="p-art" id="pArtBtn" type="button" aria-label="Open now playing">
+        <img id="pArt" alt="" hidden />
+        <span class="p-art-fallback" id="pArtFallback" aria-hidden="true">♪</span>
+      </button>
+      <span class="p-meta">
+        <span class="p-title" id="pTitle">Nothing playing</span>
+        <span class="p-artist" id="pArtist">Pick a song to start</span>
+      </span>
+    </div>
+
+    <div class="p-center">
+      <div class="p-buttons">
+        <button class="p-ghost" id="shuffleBtn" type="button" aria-label="Shuffle" aria-pressed="false" title="Shuffle">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h3.2c1.4 0 2.7.7 3.5 1.9l4.2 6.2c.8 1.2 2.1 1.9 3.5 1.9H21"/><path d="M3 18h3.2c1.4 0 2.7-.7 3.5-1.9l4.2-6.2C14.7 8.7 16 8 17.4 8H21"/><path d="M18.4 5.2 21 8l-2.6 2.8M18.4 13.2 21 16l-2.6 2.8"/></svg>
+        </button>
+        <button class="p-skip" id="prevBtn" type="button" aria-label="Previous">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 5.6a1 1 0 0 1 2 0v12.8a1 1 0 1 1-2 0z"/><path d="M19 6.4v11.2c0 .8-.9 1.3-1.6.9l-8.4-5.6a1 1 0 0 1 0-1.7l8.4-5.7c.7-.4 1.6.1 1.6.9z"/></svg>
+        </button>
+        <button class="p-play" id="playBtn" type="button" aria-label="Play">
+          <svg class="i-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8.2 5.7v12.6c0 .9 1 1.4 1.7.9l9-6.3a1.1 1.1 0 0 0 0-1.8l-9-6.3c-.7-.5-1.7 0-1.7.9z"/></svg>
+          <svg class="i-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6.6" y="5" width="3.9" height="14" rx="1.4"/><rect x="13.5" y="5" width="3.9" height="14" rx="1.4"/></svg>
+        </button>
+        <button class="p-skip" id="nextBtn" type="button" aria-label="Next">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17 5.6a1 1 0 0 1 2 0v12.8a1 1 0 1 1-2 0z"/><path d="M5 6.4v11.2c0 .8.9 1.3 1.6.9l8.4-5.6a1 1 0 0 0 0-1.7L6.6 5.5C5.9 5.1 5 5.6 5 6.4z"/></svg>
+        </button>
+        <button class="p-ghost" id="repeatBtn" type="button" aria-label="Repeat off" aria-pressed="false" title="Repeat">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 3.5 20.5 6.5 17.5 9.5"/><path d="M20.5 6.5H8.5a4 4 0 0 0-4 4V12"/><path d="M6.5 20.5 3.5 17.5 6.5 14.5"/><path d="M3.5 17.5h12a4 4 0 0 0 4-4V12"/></svg>
+          <span class="repeat-one" id="repeatOne" hidden>1</span>
+        </button>
+      </div>
+      <div class="p-seek">
+        <span class="time" id="curTime">0:00</span>
+        <input class="range" id="seek" type="range" min="0" max="1000" value="0" step="1" aria-label="Seek" />
+        <span class="time" id="durTime">0:00</span>
+      </div>
+    </div>
+
+    <div class="p-extra">
+      <button class="p-ghost" id="muteBtn" type="button" aria-label="Mute" aria-pressed="false" title="Mute">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M11 5.7v12.6c0 .8-.9 1.3-1.6.9l-3.3-2.3H3.8a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1h2.3l3.3-2.3c.7-.4 1.6.1 1.6.9z"/><path class="wave" d="M15.2 8.4a5 5 0 0 1 0 7.2M17.8 5.8a8.5 8.5 0 0 1 0 12.4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path class="slash" d="M15 9.5l5.5 5M20.5 9.5 15 15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+      </button>
+      <input class="range vol" id="volume" type="range" min="0" max="100" value="90" aria-label="Volume" />
+      <button class="p-ghost" id="expandBtn" type="button" aria-label="Open now playing" title="Now playing">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4H4v5M15 4h5v5M15 20h5v-5M9 20H4v-5"/></svg>
+      </button>
+    </div>
+  </footer>
+
+  <div class="sheet" id="sheet" hidden>
+    <div class="sheet-panel" role="dialog" aria-modal="true" aria-label="Now playing">
+      <div class="sheet-head">
+        <span class="sheet-label">Now playing</span>
+        <button class="sheet-close" id="sheetClose" type="button" aria-label="Close">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m6 6 12 12M18 6 6 18"/></svg>
+        </button>
+      </div>
+
+      <div class="np-art" id="npArtWrap">
+        <img id="npArt" alt="" hidden />
+        <span class="np-fallback" id="npFallback" aria-hidden="true">♪</span>
+      </div>
+
+      <h2 class="np-title" id="npTitle">Nothing playing</h2>
+      <p class="np-artist" id="npArtist">Pick a song to start</p>
+
+      <div class="np-seek">
+        <input class="range" id="npSeek" type="range" min="0" max="1000" value="0" step="1" aria-label="Seek" />
+        <div class="np-times"><span id="npCur">0:00</span><span id="npDur">0:00</span></div>
+      </div>
+
+      <div class="np-controls">
+        <button class="p-ghost" id="npShuffle" type="button" aria-label="Shuffle" aria-pressed="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h3.2c1.4 0 2.7.7 3.5 1.9l4.2 6.2c.8 1.2 2.1 1.9 3.5 1.9H21"/><path d="M3 18h3.2c1.4 0 2.7-.7 3.5-1.9l4.2-6.2C14.7 8.7 16 8 17.4 8H21"/><path d="M18.4 5.2 21 8l-2.6 2.8M18.4 13.2 21 16l-2.6 2.8"/></svg>
+        </button>
+        <button class="p-skip" id="npPrev" type="button" aria-label="Previous">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 5.6a1 1 0 0 1 2 0v12.8a1 1 0 1 1-2 0z"/><path d="M19 6.4v11.2c0 .8-.9 1.3-1.6.9l-8.4-5.6a1 1 0 0 1 0-1.7l8.4-5.7c.7-.4 1.6.1 1.6.9z"/></svg>
+        </button>
+        <button class="p-play" id="npPlay" type="button" aria-label="Play">
+          <svg class="i-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8.2 5.7v12.6c0 .9 1 1.4 1.7.9l9-6.3a1.1 1.1 0 0 0 0-1.8l-9-6.3c-.7-.5-1.7 0-1.7.9z"/></svg>
+          <svg class="i-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6.6" y="5" width="3.9" height="14" rx="1.4"/><rect x="13.5" y="5" width="3.9" height="14" rx="1.4"/></svg>
+        </button>
+        <button class="p-skip" id="npNext" type="button" aria-label="Next">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17 5.6a1 1 0 0 1 2 0v12.8a1 1 0 1 1-2 0z"/><path d="M5 6.4v11.2c0 .8.9 1.3 1.6.9l8.4-5.6a1 1 0 0 0 0-1.7L6.6 5.5C5.9 5.1 5 5.6 5 6.4z"/></svg>
+        </button>
+        <button class="p-ghost" id="npRepeat" type="button" aria-label="Repeat off" aria-pressed="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 3.5 20.5 6.5 17.5 9.5"/><path d="M20.5 6.5H8.5a4 4 0 0 0-4 4V12"/><path d="M6.5 20.5 3.5 17.5 6.5 14.5"/><path d="M3.5 17.5h12a4 4 0 0 0 4-4V12"/></svg>
+          <span class="repeat-one" id="npRepeatOne" hidden>1</span>
+        </button>
+      </div>
+
+      <div class="np-footer">
+        <span id="npSource">Streaming from JioSaavn</span>
+        <a id="npLink" href="https://www.jiosaavn.com/" target="_blank" rel="noopener noreferrer">Open source ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+  <audio id="audio" preload="metadata"></audio>
+  <script src="app.js"></script>
+</body>
+</html>
